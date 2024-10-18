@@ -29,35 +29,34 @@ public class Teste {
 
     @Test
     public void teste() {
-        Carro carro = criarCarro("1");
-
-        Marca marca = new Marca();
-        marca.setNome("FIAT");
-        marca.setCodigo("1");
-        carro.setMarca(marca);
-
-        marcaDAO.cadastrar(marca);
-
-        Assert.assertNotNull(marca);
-        Assert.assertNotNull(marca.getId());
-    }
-
-    public Carro criarCarro(String codigo) {
+        Marca marca = criarMarca("1");
         Acessorio acessorio = criarAcessorio("1");
 
         Carro carro = new Carro();
+        carro.setCodigo("1");
         carro.setModelo("Punto");
-        carro.setCodigo(codigo);
-        carro.add(acessorio);
+        carro.setMarca(marca);
+        carro.setAcessorio(acessorio);
 
-        return carroDAO.cadastrar(carro);
+        carroDAO.cadastrar(carro);
+
+        Assert.assertNotNull(carro);
+        Assert.assertNotNull(carro.getId());
+    }
+
+    public Marca criarMarca(String codigo) {
+       Marca marca = new Marca();
+       marca.setNome("FIAT");
+       marca.setCodigo(codigo);
+
+       return marcaDAO.cadastrar(marca);
     }
 
     public Acessorio criarAcessorio(String codigo) {
-       Acessorio acessorio = new Acessorio();
-       acessorio.setCodigo(codigo);
-       acessorio.setNome("Escapamento duplo");
+        Acessorio acessorio = new Acessorio();
+        acessorio.setNome("Escapamento");
+        acessorio.setCodigo(codigo);
 
-       return acessorio;
+        return acessorioDAO.cadastrar(acessorio);
     }
 }

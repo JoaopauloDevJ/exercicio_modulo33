@@ -17,22 +17,23 @@ public class Carro {
     @SequenceGenerator(name = "carro_seq", sequenceName = "sq_carro", initialValue = 1, allocationSize = 1)
     private Long id;
 
+    @Column(name = "MODELO", length = 50, nullable = false, unique = true)
     private String modelo;
 
-    @Column(name = "CODIGO", nullable = false, unique = true)
+    @Column(name = "CODIGO", length = 50, nullable = false, unique = true)
     private String codigo;
 
     @ManyToOne
     @JoinColumn(name = "id_marca_fk",
-            foreignKey = @ForeignKey(name = "fk_carro_marca"),
+            foreignKey = @ForeignKey(name = "fk_marca_carro"),
             referencedColumnName = "id", nullable = false)
     private Marca marca;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(name = "tb_carro_acessorio",
-            joinColumns = { @JoinColumn(name = "id_carro_fk") },
-            inverseJoinColumns =  { @JoinColumn(name = "id_acessorio_fk") })
-    private List<Acessorio> acessorios;
+    @OneToOne
+    @JoinColumn(name = "id_acessorio_fk",
+            foreignKey = @ForeignKey(name = "fk_carro_acessorio"),
+            referencedColumnName = "id", nullable = false)
+    private Acessorio acessorio;
 
     public Marca getMarca() {
         return marca;
@@ -40,18 +41,6 @@ public class Carro {
 
     public void setMarca(Marca marca) {
         this.marca = marca;
-    }
-
-    public Carro() {
-        this.acessorios = new ArrayList<>();
-    }
-
-    public List<Acessorio> getAcessorios() {
-        return acessorios;
-    }
-
-    public void setAcessorios(List<Acessorio> acessorios) {
-        this.acessorios = acessorios;
     }
 
     public Long getId() {
@@ -78,7 +67,11 @@ public class Carro {
         this.codigo = codigo;
     }
 
-    public void add(Acessorio acessorio) {
-        this.acessorios.add(acessorio);
+    public Acessorio getAcessorio() {
+        return acessorio;
+    }
+
+    public void setAcessorio(Acessorio acessorio) {
+        this.acessorio = acessorio;
     }
 }

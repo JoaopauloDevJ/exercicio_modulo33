@@ -5,7 +5,6 @@
 package br.com.paulo.domain;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,16 +22,8 @@ public class Acessorio {
     @Column(name = "NOME", length = 50, nullable = false)
     private String nome;
 
-    @ManyToMany(mappedBy = "acessorio")
-    private List<Carro> carro;
-
-    public List<Carro> getCarro() {
-        return carro;
-    }
-
-    public void setCarro(List<Carro> carro) {
-        this.carro = carro;
-    }
+    @OneToOne(mappedBy = "acessorio")
+    private Carro carro;
 
     public Long getId() {
         return id;
@@ -56,5 +47,13 @@ public class Acessorio {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Carro getCarro() {
+        return carro;
+    }
+
+    public void setCarro(Carro carro) {
+        this.carro = carro;
     }
 }
